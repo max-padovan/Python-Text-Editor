@@ -31,18 +31,25 @@ pageFrame.place(relx      = 0,
                 relheight = (1 - (barHeight + bottomBarHeight) / window.winfo_height()))
 
 #Add scrolling pages, search for scrolling in tkinter on youtube
-pageCanvas = tk.Canvas(pageFrame, width = pageWidth, height = 300, bg = "#FFFFFF")
-pageCanvas.place(relx = 0.5, rely = 0, anchor = "n")
+pageCanvas = tk.Canvas(pageFrame, bg = "#FFFFFF", scrollregion = (0, 0, 1000, 3508), width = 1000, height = 1000)
+pageCanvas.create_line(0, 0, 1000, 3508, fill = 'green', width = 10)
+
+pageCanvas.xview_moveto(0)
+pageCanvas.yview_moveto(0)
 
 
-pageFrame.grid_rowconfigure(0, weight = 1)
-pageFrame.grid_columnconfigure(0, weight = 1)
 
-VscrollBar = ttk.Scrollbar(pageFrame, orient = "vertical")
-VscrollBar.grid(row = 0, column = 1, sticky = "ns")
 
-HscrollBar = ttk.Scrollbar(pageFrame, orient = "horizontal")
-HscrollBar.grid(row = 1, column = 0, sticky = "ew")
+pageCanvas.place(relx = 0.5, rely = 0, anchor = 'n')
+
+
+VscrollBar = ttk.Scrollbar(pageFrame, orient = "vertical", command = pageCanvas.yview)
+pageCanvas.configure(yscrollcommand = VscrollBar.set)
+VscrollBar.place(relx = 1, relheight = 1, anchor = "ne")
+
+HscrollBar = ttk.Scrollbar(pageFrame, orient = "horizontal", command = pageCanvas.xview)
+pageCanvas.configure(xscrollcommand = HscrollBar.set)
+HscrollBar.place(relx = 0, rely = 1, relwidth = 1, anchor = "sw")
 
 
 
